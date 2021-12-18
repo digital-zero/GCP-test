@@ -1,0 +1,27 @@
+# cloudbuild-cd.yaml
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/gcp01-335400/test:7cf862c", "."]
+    timeout: 500s
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/gcp01-335400/test:7cf862c"]
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "test",
+        "--image",
+        "gcr.io/gcp01-335400/test:7cf862c",
+        "--region",
+        "asia-northeast3",
+        "--platform",
+        "managed",
+        "--port",
+        "5000",
+        "--allow-unauthenticated",
+      ]
