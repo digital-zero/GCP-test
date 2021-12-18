@@ -13,3 +13,4 @@ spec:
     targetPort: 3306
   selector:
     name: catalogue-db
+---
